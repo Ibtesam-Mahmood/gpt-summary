@@ -1,30 +1,58 @@
+import 'dart:math';
+
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:gpt_summary/pages/main_page.dart';
 
 void main() {
-  runApp(const MyApp());
+
+  // randomly select a theme index
+  // final int themeIndex = Random().nextInt(FlexScheme.values.length);
+
+  runApp(const MyApp(/*themeIndex: themeIndex*/));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+
+  // final int themeIndex;
+
+  const MyApp({super.key, /* required this.themeIndex */});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+  final int themeIndex = Random().nextInt(FlexScheme.values.length);
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+      theme: FlexThemeData.light(
+        scheme: FlexScheme.values[themeIndex],
+        surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
+        blendLevel: 20,
+        appBarOpacity: 0.95,
+        subThemesData: const FlexSubThemesData(
+          blendOnLevel: 20,
+          blendOnColors: false,
+        ),
+        visualDensity: FlexColorScheme.comfortablePlatformDensity,
+        useMaterial3: true,
+        // To use the playground font, add GoogleFonts package and uncomment
+        // fontFamily: GoogleFonts.notoSans().fontFamily,
       ),
+      darkTheme: FlexThemeData.dark(
+        scheme: FlexScheme.values[themeIndex],
+        surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
+        blendLevel: 15,
+        appBarStyle: FlexAppBarStyle.background,
+        appBarOpacity: 0.90,
+        subThemesData: const FlexSubThemesData(
+          blendOnLevel: 30,
+        ),
+        visualDensity: FlexColorScheme.comfortablePlatformDensity,
+        useMaterial3: true,
+        // To use the playground font, add GoogleFonts package and uncomment
+        // fontFamily: GoogleFonts.notoSans().fontFamily,
+      ),
+      themeMode: ThemeMode.system,
       home: const MainPage(),
     );
   }
